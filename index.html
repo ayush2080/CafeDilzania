@@ -46,21 +46,21 @@
       <div class="item"><img src="image/caramellatte.jpg">
         <div class="item-info">
           <h3>Caramel Latte</h3>
-          <p>$4.99</p>
+          <p>₹199</p>
           <div class="stars">★★★★☆</div>
         </div>
       </div>
       <div class="item"><img src="image/club-sandwich.jpg">
         <div class="item-info">
           <h3>Club Sandwich</h3>
-          <p>$6.50</p>
+          <p>₹149</p>
           <div class="stars">★★★★★</div>
         </div>
       </div>
       <div class="item"><img src="image/chocolate pastry.jpg">
         <div class="item-info">
           <h3>Chocolate Pastry</h3>
-          <p>$3.75</p>
+          <p>₹75</p>
           <div class="stars">★★★★☆</div>
         </div>
       </div>
@@ -102,12 +102,11 @@
       </div>
       <textarea id="user-review" placeholder="Write your review..."></textarea>
       <button class="btn-submit" id="submit-review">Submit</button>
-      <p id="thank-you-msg">Thank you for your response!</p>
     </div>
   </div>
 
   <!-- Floating Buttons -->
-  <a href="https://wa.me/919876543210" target="_blank" class="whatsapp-btn" title="Chat with us on WhatsApp">
+  <a href="https://wa.me/911234567890" target="_blank" class="whatsapp-btn" title="Chat with us on WhatsApp">
     <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" width="26" height="26">
       <path
         d="M20.52 3.48A11.77 11.77 0 0 0 12 0C5.37 0 .06 5.31.06 11.84a11.76 11.76 0 0 0 1.67 6.05L0 24l6.29-1.64A11.82 11.82 0 0 0 12 23.68c6.63 0 11.94-5.31 11.94-11.84A11.71 11.71 0 0 0 20.52 3.48ZM12 21.4a9.44 9.44 0 0 1-4.83-1.32l-.35-.2-3.73 1L4.27 17l-.23-.37a9.46 9.46 0 0 1-1.44-5A9.41 9.41 0 0 1 12 2.4a9.41 9.41 0 0 1 9.4 9.36A9.41 9.41 0 0 1 12 21.4Zm5.45-7.05c-.3-.15-1.78-.88-2.06-.98s-.48-.15-.68.15-.78.98-.96 1.18-.36.23-.66.08a7.73 7.73 0 0 1-2.28-1.41 8.48 8.48 0 0 1-1.57-1.93c-.17-.3 0-.46.13-.61.14-.14.3-.36.45-.53.15-.17.2-.3.3-.5s.05-.38-.03-.53-.68-1.64-.93-2.24c-.25-.6-.5-.5-.68-.51H8.3a1.3 1.3 0 0 0-.9.43 3.71 3.71 0 0 0-1.17 2.76 6.46 6.46 0 0 0 1.38 3.41c.16.21 2.23 3.43 5.42 4.78.76.33 1.36.53 1.83.68.77.25 1.47.22 2.02.13.62-.09 1.78-.72 2.03-1.42s.25-1.29.18-1.42-.27-.2-.56-.35Z" />
@@ -121,35 +120,39 @@
     </svg>
   </button>
 
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">✅ Thank you for rating!</div>
+
+
   <footer>© 2025 Café Dilzania | All Rights Reserved</footer>
-  </body>
+</body>
 
-  <script>
-    const foods = [
-      { name: "Caramel Latte", img: "image/caramellatte.jpg" },
-      { name: "Club Sandwich", img: "image/club-sandwich.jpg" },
-      { name: "Chocolate Pastry", img: "image/chocolate pastry.jpg" }
-    ];
+<script>
+  const foods = [
+    { name: "Caramel Latte", img: "image/caramellatte.jpg" },
+    { name: "Club Sandwich", img: "image/club-sandwich.jpg" },
+    { name: "Chocolate Pastry", img: "image/chocolate pastry.jpg" }
+  ];
 
-    // Load previous reviews from localStorage or defaults
-    let reviewsData = JSON.parse(localStorage.getItem('reviewsData')) || {
-      "Caramel Latte": ["Smooth and creamy!", "Loved the caramel taste."],
-      "Club Sandwich": ["Crispy and tasty!", "Perfectly layered sandwich."],
-      "Chocolate Pastry": ["Rich chocolate flavor!", "Soft and sweet."]
-    };
+  // Load previous reviews from localStorage or defaults
+  let reviewsData = JSON.parse(localStorage.getItem('reviewsData')) || {
+    "Caramel Latte": ["Smooth and creamy!", "Loved the caramel taste."],
+    "Club Sandwich": ["Crispy and tasty!", "Perfectly layered sandwich."],
+    "Chocolate Pastry": ["Rich chocolate flavor!", "Soft and sweet."]
+  };
 
-    const cardsContainer = document.getElementById('rating-cards');
+  const cardsContainer = document.getElementById('rating-cards');
 
-    // Function to render rating cards dynamically
-    function renderCards() {
-      cardsContainer.innerHTML = "";
-      foods.forEach(f => {
-        const rList = reviewsData[f.name] || [];
-        const avg = (rList.length * 4.5) / rList.length || 4.5;
+  // Function to render rating cards dynamically
+  function renderCards() {
+    cardsContainer.innerHTML = "";
+    foods.forEach(f => {
+      const rList = reviewsData[f.name] || [];
+      const avg = (rList.length * 4.5) / rList.length || 4.5;
 
-        const div = document.createElement('div');
-        div.className = 'rating-card';
-        div.innerHTML = `
+      const div = document.createElement('div');
+      div.className = 'rating-card';
+      div.innerHTML = `
       <img src="${f.img}" alt="${f.name}">
       <div class="card-info">
         <h3>${f.name}</h3>
@@ -160,126 +163,190 @@
         <button class="rate-btn" data-name="${f.name}" data-img="${f.img}">Rate</button>
       </div>
     `;
-        cardsContainer.appendChild(div);
-      });
-      attachRateEvents();
-      startReviewRotation();
+      cardsContainer.appendChild(div);
+    });
+    attachRateEvents();
+    startReviewRotation();
+  }
+
+  /* =============================== */
+  /* 📦 POPUP FUNCTIONALITY */
+  /* =============================== */
+
+  // Function to close popup safely
+  function closePopup() {
+    const popup = document.getElementById('rating-popup');
+    const overlay = document.getElementById('overlay');
+    popup.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.classList.remove('no-scroll');
+  }
+
+  // Attach popup close events
+  document.getElementById('close-popup').onclick = closePopup;
+  document.getElementById('overlay').onclick = () => {
+    if (document.getElementById('rating-popup').classList.contains('active')) {
+      closePopup();
     }
+  };
 
-    // Attach popup open events
-    function attachRateEvents() {
-      document.querySelectorAll('.rate-btn').forEach(btn => {
-        btn.onclick = () => {
-          const name = btn.dataset.name;
-          const img = btn.dataset.img;
+  // Track rated dishes
+  let ratedDishes = JSON.parse(localStorage.getItem('ratedDishes')) || [];
 
-          document.getElementById('popup-name').textContent = name;
-          document.getElementById('popup-img').src = img;
+  // Attach popup open events
+  function attachRateEvents() {
+    document.querySelectorAll('.rate-btn').forEach(btn => {
+      const name = btn.dataset.name;
 
-          document.querySelectorAll('input[name="popup-rating"]').forEach(r => r.checked = false);
-          document.getElementById('user-review').value = "";
-          document.getElementById('thank-you-msg').style.display = 'none';
-
-          document.getElementById('rating-popup').classList.add('active');
-          document.getElementById('overlay').classList.add('active');
-          document.body.classList.add('no-scroll');
-        };
-      });
-    }
-
-    // Close popup
-    function closePopup() {
-      document.getElementById('rating-popup').classList.remove('active');
-      document.getElementById('overlay').classList.remove('active');
-      document.body.classList.remove('no-scroll');
-    }
-    document.getElementById('close-popup').onclick = closePopup;
-    document.getElementById('overlay').onclick = () => {
-      if (document.getElementById('rating-popup').classList.contains('active')) closePopup();
-    };
-
-    // Submit review
-    document.getElementById('submit-review').onclick = () => {
-      const name = document.getElementById('popup-name').textContent.trim();
-      const rating = document.querySelector('input[name="popup-rating"]:checked');
-      const review = document.getElementById('user-review').value.trim();
-
-      if (!rating) { alert("Please select a rating."); return; }
-      if (!review) { alert("Please write a review."); return; }
-
-      if (!reviewsData[name]) reviewsData[name] = [];
-      reviewsData[name].push(review);
-      localStorage.setItem('reviewsData', JSON.stringify(reviewsData));
-
-      document.getElementById('thank-you-msg').style.display = 'block';
-
-      // Update review in card immediately
-      const reviewEl = document.getElementById('review-' + name.replace(/\s/g, ''));
-      if (reviewEl) reviewEl.textContent = review;
-
-      setTimeout(() => { closePopup(); renderCards(); }, 1500);
-    };
-
-    // Rotate reviews in each card
-    function startReviewRotation() {
-      Object.keys(reviewsData).forEach(n => {
-        const arr = reviewsData[n];
-        let idx = 0;
-        const el = document.getElementById('review-' + n.replace(/\s/g, ''));
-        if (!el || arr.length < 2) return;
-        setInterval(() => {
-          idx = (idx + 1) % arr.length;
-          el.style.animation = 'slideInOut 2s ease';
-          setTimeout(() => { el.textContent = arr[idx]; }, 1000);
-          setTimeout(() => { el.style.animation = 'none'; }, 2000);
-        }, 4000);
-      });
-    }
-
-    /* =============================== */
-    /* GO TO TOP BUTTON FUNCTIONALITY */
-    /* =============================== */
-    const goTopBtn = document.getElementById("goTopBtn");
-    window.onscroll = () => {
-      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        goTopBtn.classList.add("show");
-      } else {
-        goTopBtn.classList.remove("show");
+      // Disable already rated dishes
+      if (ratedDishes.includes(name)) {
+        btn.textContent = "Rated ★";
+        btn.disabled = true;
+        btn.classList.add("rated");
       }
-    };
-    goTopBtn.onclick = () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    };
 
-    /* =============================== */
-    /* HAMBURGER MENU FUNCTIONALITY */
-    /* =============================== */
-    const hamburger = document.getElementById('hamburger');
-    const navbar = document.getElementById('navbar');
-    const navOverlay = document.getElementById('nav-overlay');
+      btn.onclick = () => {
+        const img = btn.dataset.img;
 
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      navbar.classList.toggle('active');
-      navOverlay.classList.toggle('active');
+        // If already rated, show visual message
+        if (ratedDishes.includes(name)) {
+          const msg = document.createElement('div');
+          msg.textContent = "You’ve already rated this dish!";
+          msg.className = "already-rated-msg";
+          btn.parentElement.appendChild(msg);
+          setTimeout(() => msg.remove(), 2000);
+          return;
+        }
+
+        // Show rating popup
+        document.getElementById('popup-name').textContent = name;
+        document.getElementById('popup-img').src = img;
+        document.querySelectorAll('input[name="popup-rating"]').forEach(r => r.checked = false);
+        document.getElementById('user-review').value = "";
+
+        // Only reset thank-you if it exists (prevents null error)
+        const thankYouEl = document.getElementById('thank-you-msg');
+        if (thankYouEl) thankYouEl.style.display = 'none';
+
+        document.getElementById('rating-popup').classList.add('active');
+        document.getElementById('overlay').classList.add('active');
+        document.body.classList.add('no-scroll');
+
+      };
     });
+  }
 
-    // Close menu when a link is clicked
-    document.querySelectorAll('#navbar a').forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navbar.classList.remove('active');
-        navOverlay.classList.remove('active');
-      });
+  /* =============================== */
+  /* ✨ SUBMIT REVIEW FUNCTIONALITY */
+  /* =============================== */
+  document.getElementById('submit-review').onclick = () => {
+    const name = document.getElementById('popup-name').textContent.trim();
+    const rating = document.querySelector('input[name="popup-rating"]:checked');
+    const review = document.getElementById('user-review').value.trim();
+
+    if (!rating) { alert("Please select a rating."); return; }
+    if (!review) { alert("Please write a review."); return; }
+
+    // Save review
+    if (!reviewsData[name]) reviewsData[name] = [];
+    reviewsData[name].push(review);
+    localStorage.setItem('reviewsData', JSON.stringify(reviewsData));
+
+    // Mark dish as rated
+    if (!ratedDishes.includes(name)) {
+      ratedDishes.push(name);
+      localStorage.setItem('ratedDishes', JSON.stringify(ratedDishes));
+    }
+
+    // Update review on card immediately
+    const reviewEl = document.getElementById('review-' + name.replace(/\s/g, ''));
+    if (reviewEl) reviewEl.textContent = review;
+
+    // Close popup, refresh, and show toast
+    setTimeout(() => {
+      closePopup();
+      renderCards();
+      showToast("✅ Thank you for rating!");
+    }, 500);
+  };
+
+  // ✅ Toast Function
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    if (!toast) return; // Prevent errors if toast not in HTML
+    toast.textContent = message;
+    toast.classList.add('show');
+
+    // Remove after 2.5 seconds
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+
+
+
+
+
+  // Rotate reviews in each card
+  function startReviewRotation() {
+    Object.keys(reviewsData).forEach(n => {
+      const arr = reviewsData[n];
+      let idx = 0;
+      const el = document.getElementById('review-' + n.replace(/\s/g, ''));
+      if (!el || arr.length < 2) return;
+      setInterval(() => {
+        idx = (idx + 1) % arr.length;
+        el.style.animation = 'slideInOut 2s ease';
+        setTimeout(() => { el.textContent = arr[idx]; }, 1000);
+        setTimeout(() => { el.style.animation = 'none'; }, 2000);
+      }, 4000);
     });
+  }
 
-    // Close menu when overlay is clicked
-    navOverlay.addEventListener('click', () => {
+  /* =============================== */
+  /* GO TO TOP BUTTON FUNCTIONALITY */
+  /* =============================== */
+  const goTopBtn = document.getElementById("goTopBtn");
+  window.onscroll = () => {
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+      goTopBtn.classList.add("show");
+    } else {
+      goTopBtn.classList.remove("show");
+    }
+  };
+  goTopBtn.onclick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  /* =============================== */
+  /* HAMBURGER MENU FUNCTIONALITY */
+  /* =============================== */
+  const hamburger = document.getElementById('hamburger');
+  const navbar = document.getElementById('navbar');
+  const navOverlay = document.getElementById('nav-overlay');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navbar.classList.toggle('active');
+    navOverlay.classList.toggle('active');
+  });
+
+  // Close menu when a link is clicked
+  document.querySelectorAll('#navbar a').forEach(link => {
+    link.addEventListener('click', () => {
       hamburger.classList.remove('active');
       navbar.classList.remove('active');
       navOverlay.classList.remove('active');
     });
+  });
 
-    renderCards();
-  </script>
+  // Close menu when overlay is clicked
+  navOverlay.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    navbar.classList.remove('active');
+    navOverlay.classList.remove('active');
+  });
+
+  renderCards();
+</script>
+
 </html>
